@@ -13,9 +13,9 @@ module.exports = (sequelize, DataTypes) => {
     },
     type: {
       type: DataTypes.STRING,
-      allowNull: false,  // บังคับให้ระบุประเภทการทำธุรกรรม
+      allowNull: false,  
       validate: {
-        isIn: [['BUY', 'SELL']],  // เฉพาะ BUY หรือ SELL เท่านั้น
+        isIn: [['BUY', 'SELL']],
       },
     },
   });

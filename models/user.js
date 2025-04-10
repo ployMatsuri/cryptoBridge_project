@@ -9,6 +9,7 @@ module.exports = (sequelize, DataTypes) => {
       User.hasMany(models.FiatWallet);
       User.hasMany(models.CryptoWallet);
       User.hasMany(models.Order);
+      User.hasMany(models.Transaction);
       User.hasMany(models.Trade, { foreignKey: 'buyer_id' });
       User.hasMany(models.Trade, { foreignKey: 'seller_id' });
     };

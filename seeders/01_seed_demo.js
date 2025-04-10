@@ -51,6 +51,7 @@ async function seed() {
     });
 
     console.log('✅ ข้อมูลทดสอบถูก seed เรียบร้อยแล้ว!');
+
     process.exit();
   } catch (error) {
     console.error('❌ เกิดข้อผิดพลาดในการ seed:', error);
