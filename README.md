@@ -25,7 +25,8 @@ cd CryptoExchange
 
 ## 3. Create a .env file in the root directory
 Set up the database configuration in the .env file:
-```DB_HOST=localhost
+```
+DB_HOST=localhost
 DB_USER=your-db-user
 DB_PASSWORD=your-db-password
 DB_NAME=crypto_exchange
