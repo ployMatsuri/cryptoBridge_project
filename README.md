@@ -1,4 +1,4 @@
-## Fullname
+# Fullname
 **Vimonsiri Thammada**
 
 # Cryptocurrency Exchange System
@@ -15,8 +15,9 @@ This project is a cryptocurrency exchange system built with Node.js, Sequelize, 
 # Setup and Installation
 
 ## 1. Clone the Repository
-```git clone https://github.com/ployMatsuri/cryptoBridge_project.git
-cd CryptoExchange
+```
+git clone https://github.com/ployMatsuri/cryptoBridge_project.git
+cd cryptoBridge_project
 ```
 
 ## 2. Install dependencies
