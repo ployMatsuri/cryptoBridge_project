@@ -7,3 +7,5 @@ router.post('/', tradeController.createTrade);
 router.get('/user/:user_id', tradeController.getTradesByUser);
 
 router.get('/order/:order_id', tradeController.getTradeByOrderId);
+
+module.exports = router;

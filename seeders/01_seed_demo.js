@@ -9,8 +9,8 @@ async function seed() {
 
     // User
     const [user1, user2] = await Promise.all([
-      db.User.create({ username: 'alice', email: 'alice@example.com', password_hash: '123456' }),
-      db.User.create({ username: 'bob', email: 'bob@example.com', password_hash: 'abcdef' })
+      db.User.create({ username: 'user1', email: 'user1@example.com', password_hash: '123456' }),
+      db.User.create({ username: 'user2', email: 'user2@example.com', password_hash: 'abcdef' })
     ]);
 
     // Order
