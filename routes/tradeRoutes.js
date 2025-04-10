@@ -4,4 +4,6 @@ const tradeController = require('../controllers/tradeController');
 
 router.post('/', tradeController.createTrade);
 
-module.exports = router;
+router.get('/user/:user_id', tradeController.getTradesByUser);
+
+router.get('/order/:order_id', tradeController.getTradeByOrderId);

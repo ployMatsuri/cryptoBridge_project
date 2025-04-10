@@ -9,14 +9,14 @@ app.use(express.json());
 // Routes
 const userRoutes = require("./routes/userRoutes");
 const orderRoutes = require("./routes/orderRoutes");
-// const tradeRoutes = require("./routes/trade");
+const tradeRoutes = require("./routes/tradeRoutes");
 const transactionRoutes = require("./routes/transactionRoutes");
 
 
 app.use("/users", userRoutes);
 
 app.use("/orders", orderRoutes);
-// app.use("/trades", tradeRoutes);
+app.use("/trades", tradeRoutes);
 app.use("/transactions", transactionRoutes);
 
 

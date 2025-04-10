@@ -1,62 +1,77 @@
 const db = require('../models');
 
-exports.createTrade = async (req, res) => {
-  try {
-    // ดึงข้อมูลจาก request body
-    const { coin_symbol, quantity, price_per_unit, buyer_id, seller_id, type, OrderId } = req.body;
+module.exports = {
+  // Create a new trade
+  createTrade: async (req, res) => {
+    const { coin_symbol, quantity, price_per_unit, total_amount, OrderId, type, buyer_id, seller_id } = req.body;
 
-    // ตรวจสอบว่ามีการส่ง 'type' หรือไม่
-    if (!type || (type !== 'BUY' && type !== 'SELL')) {
-      return res.status(400).json({ error: 'Invalid or missing trade type (BUY/SELL)' });
+    try {
+      const trade = await db.Trade.create({
+        coin_symbol,
+        quantity,
+        price_per_unit,
+        total_amount,
+        OrderId,
+        type,
+        buyer_id,
+        seller_id,
+      });
+
+      res.status(201).json(trade);
+    } catch (error) {
+      res.status(500).json({ message: 'Error creating trade', error: error.message });
     }
+  },
 
-    // สร้าง trade ใหม่
-    const trade = await db.Trade.create({
-      coin_symbol,
-      quantity,
-      price_per_unit,
-      total_amount: quantity * price_per_unit,
-      buyer_id,
-      seller_id,
-      type,  // บันทึกประเภทของการทำธุรกรรม
-      OrderId,  // ระบุ OrderId สำหรับการเชื่อมโยง
-    });
+  getTradesByUser: async (req, res) => {
+    const { user_id } = req.params;
 
-    // หา CryptoWallet ของผู้ซื้อ
-    const buyerWallet = await db.CryptoWallet.findOne({
-      where: { UserId: buyer_id, coin_symbol },
-    });
+    try {
+      const trades = await db.Trade.findAll({
+        where: {
+          [db.Sequelize.Op.or]: [
+            { buyer_id: user_id },
+            { seller_id: user_id },
+          ]
+        },
+        include: [
+          { model: db.User, as: 'buyer' },
+          { model: db.User, as: 'seller' },
+          { model: db.Order },
+        ]
+      });
 
-    // หา CryptoWallet ของผู้ขาย
-    const sellerWallet = await db.CryptoWallet.findOne({
-      where: { UserId: seller_id, coin_symbol },
-    });
+      if (!trades.length) {
+        return res.status(404).json({ message: 'No trades found for this user' });
+      }
 
-    // ตรวจสอบว่า wallet ของผู้ซื้อและผู้ขายมีอยู่
-    if (!buyerWallet || !sellerWallet) {
-      return res.status(404).json({ error: 'Wallet not found for buyer or seller' });
+      res.status(200).json(trades);
+    } catch (error) {
+      res.status(500).json({ message: 'Error retrieving trades', error: error.message });
     }
+  },
 
-    // อัปเดตยอดใน CryptoWallet หลังการทำธุรกรรม
-    if (type === 'BUY') {
-      // เพิ่มเหรียญใน wallet ของผู้ซื้อ
-      buyerWallet.balance += quantity;
-      // ลดเหรียญใน wallet ของผู้ขาย
-      sellerWallet.balance -= quantity;
-    } else if (type === 'SELL') {
-      // ลดเหรียญใน wallet ของผู้ซื้อ
-      buyerWallet.balance -= quantity;
-      // เพิ่มเหรียญใน wallet ของผู้ขาย
-      sellerWallet.balance += quantity;
+  getTradeByOrderId: async (req, res) => {
+    const { order_id } = req.params;
+
+    try {
+      const trade = await db.Trade.findOne({
+        where: { OrderId: order_id },
+        include: [
+          { model: db.User, as: 'buyer' },
+          { model: db.User, as: 'seller' },
+          { model: db.Order },
+        ]
+      });
+
+      if (!trade) {
+        return res.status(404).json({ message: 'Trade not found for this order' });
+      }
+
+      res.status(200).json(trade);
+    } catch (error) {
+      res.status(500).json({ message: 'Error retrieving trade', error: error.message });
     }
+  },
 
-    // บันทึกการเปลี่ยนแปลงใน CryptoWallet
-    await buyerWallet.save();
-    await sellerWallet.save();
-
-    // ส่งผลลัพธ์การทำการ trade
-    res.status(201).json(trade);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
 };
