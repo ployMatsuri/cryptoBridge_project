@@ -1,5 +1,6 @@
-const { db } = require('../models'); 
-console.log(db);
+const db = require('../models');
+console.log("User: "+db);
+
 module.exports = {
   async getAllUsers(req, res) {
     try {
