@@ -10,18 +10,16 @@ This project is a cryptocurrency exchange system built with Node.js, Sequelize, 
 - Node.js
 - PostgreSQL
 - Sequelize ORM
-- `requirements.txt` for dependencie
+- requirements.txt for dependencie
 
 # Setup and Installation
 
 ## 1. Clone the Repository
 ```git clone https://github.com/ployMatsuri/cryptoBridge_project.git
-cd CryptoExchange
-```
+cd CryptoExchange```
 
 ## 2. Install dependencies
-```npm install
-```
+```npm install```
 
 ## 3. Create a .env file in the root directory
 Set up the database configuration in the .env file:
