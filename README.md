@@ -16,7 +16,8 @@ This project is a cryptocurrency exchange system built with Node.js, Sequelize, 
 
 ## 1. Clone the Repository
 ```git clone https://github.com/ployMatsuri/cryptoBridge_project.git
-cd CryptoExchange```
+cd CryptoExchange
+```
 
 ## 2. Install dependencies
 ```npm install```
